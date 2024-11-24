@@ -10,9 +10,15 @@ public class DestinationManager : MonoBehaviour
 
     private int currentDestinationIndex = 0;
 
+    private TimePointController pointController;
     // Event that navigation scripts can subscribe to
     public System.Action onDestinationChanged;
 
+    void Start()
+    {
+        pointController = GameObject.Find("TimePointManager").GetComponent<TimePointController>();
+        pointController.UpdateScore(0);
+    }
     public Transform GetCurrentDestination()
     {
         if (currentDestinationIndex < destinations.Length)
@@ -36,6 +42,7 @@ public class DestinationManager : MonoBehaviour
         {
             // Deactivate current destination
             destinations[currentDestinationIndex].gameObject.SetActive(false);
+            pointController.UpdateScore(1000);
 
             // Move to next destination
             currentDestinationIndex++;
